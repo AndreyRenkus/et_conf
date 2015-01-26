@@ -1,4 +1,4 @@
 SHELL=/bin/sh
-* * * * * /usr/local/eshtapay/watch_firefox.sh 
-* * * * * ( sleep 30 && /usr/local/eshtapay/watch_firefox.sh )
+* * * * * /usr/local/eshtapay/watch.sh 
+#* * * * * ( sleep 30 && /usr/local/eshtapay/watch_firefox.sh )
 */5 * * * * /usr/local/eshtapay/watch_eshtapay_terminals.sh 

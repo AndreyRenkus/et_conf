@@ -3,6 +3,21 @@ USER=eshtapay
 HOME_DIR=/home/$USER
 ETC_DIR=/etc
 INIT_DIR=/etc/init
+PACKAGES="wget xorg openbox firefox rungetty psmisc mc feh wvdial xinput-calibrator usb-modeswitch"
+
+echo panda > /etc/hostname
+
+echo "127.0.0.1 localhost" > /etc/hosts
+echo "127.0.1.1 panda" > /etc/hosts
+
+add-apt-repository 'deb http://archive.ubuntu.com/ubuntu trusty universe'
+add-apt-repository 'deb http://archive.ubuntu.com/ubuntu trusty-updates universe'
+apt-get -y update
+apt-get -y --force-yes install $PACKAGES
+apt-get autoclean
+
+useradd eshtapay -m -s /bin/bash
+passwd eshtapay
 
 sudo -u $USER cp .profile $HOME_DIR
 sudo -u $USER mkdir $HOME_DIR/.config
