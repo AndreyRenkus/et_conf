@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openbox_menu xmlns="http://openbox.org/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://openbox.org/
+                file:///usr/share/openbox/menu.xsd">
+
+<menu id="mobile-provider" label="Mobile provider">
+  <item label="MTS">
+    <action name="Execute">
+	<command>sudo /usr/local/eshtapay/modem/modem.sh mts</command>
+    </action>
+  </item>
+  <item label="Kievstar">
+    <action name="Execute">
+	<command>sudo /usr/local/eshtapay/modem/modem.sh kievstar</command>
+    </action>
+  </item>
+</menu>
+
+<menu id="configure-menu" label="Configure">
+  <menu id="mobile-provider" />
+  <item label="Configure touch">
+    <action name="Execute">
+	<command>/usr/bin/xinput_calibrator</command>
+    </action>
+  </item>
+</menu>
+
+<menu id="root-menu" label="Openbox 3">
+  <item label="Terminal">
+    <action name="Execute"><execute>/usr/bin/x-terminal-emulator</execute></action>
+  </item>
+  <separator />
+  <menu id="configure-menu" />
+  <!-- This requires the presence of the 'menu' package to work -->
+  <item label="Restart EshtaPay">
+    <action name="Execute">
+	<command>/usr/local/eshtapay/browser_restart.sh</command>
+	<startupnotify><enabled>yes</enabled></startupnotify>
+    </action>
+  </item>
+  <item label="Restart Jetty">
+    <action name="Execute">
+	<command>/usr/local/eshtapay/jetty_restart.sh</command>
+    </action>
+  </item>
+  <item label="Reboot terminal">
+    <action name="Execute">
+	<command>/usr/local/eshtapay/reboot_terminal.sh</command>
+    </action>
+  </item>
+  <item label="Power off terminal">
+    <action name="Execute">
+	<command>sudo poweroff</command>
+    </action>
+  </item>
+  <separator />
+  <item label="Reconfigure">
+    <action name="Reconfigure" />
+  </item>
+</menu>
+
+</openbox_menu>
