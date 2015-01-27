@@ -3,15 +3,15 @@ USER=eshtapay
 HOME_DIR=/home/$USER
 ETC_DIR=/etc
 INIT_DIR=/etc/init
-PACKAGES="wget xorg openbox firefox rungetty psmisc mc feh wvdial xinput-calibrator usb-modeswitch"
+PACKAGES="wget dbus xorg openbox firefox rungetty psmisc mc feh wvdial xinput-calibrator usb-modeswitch"
 
 echo panda > /etc/hostname
 
 echo "127.0.0.1 localhost" > /etc/hosts
 echo "127.0.1.1 panda" > /etc/hosts
 
-add-apt-repository 'deb http://archive.ubuntu.com/ubuntu trusty universe'
-add-apt-repository 'deb http://archive.ubuntu.com/ubuntu trusty-updates universe'
+echo 'deb http://archive.ubuntu.com/ubuntu trusty universe' >> /etc/apt/sources.list
+echo 'deb http://archive.ubuntu.com/ubuntu trusty-updates universe' >> /etc/apt/sources.list
 apt-get -y update
 apt-get -y --force-yes install $PACKAGES
 apt-get autoclean
