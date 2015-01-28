@@ -30,6 +30,8 @@ cp etc/* $ETC_DIR
 cp init/* $INIT_DIR
 cp -r eshtapay/ /usr/local
 cp -r eshtapay-terminals/ /usr/local
+chown -R root:eshtapay /usr/local/eshtapay-terminals
+chmod -R g+w /usr/local/eshtapay-terminals
 
 mkdir /usr/lib/jvm
 cp -r jre1.8.0/ /usr/lib/jvm
