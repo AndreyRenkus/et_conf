@@ -15,16 +15,18 @@ ping_server() {
 
 wvdial_restart() {
     killall -9 wvdial
-    log "Starting WVDIAL..."
+    logger -p info -t inet "Starting WVDIAL..."
     ${WVDIAL} &
     return 0
 }
 
 usb_reset() {
-log "Restarting USB power..."
+logger -p info -t inet "Restarting USB power..."
 killall -9 wvdial
-LOGGING = ${USB_RESET}
-log "${LOGGING}"
+#name="$(awk -F "=" '/Exec/ {print $2}' $file)"
+
+LOGGING = ${USB_RESET} /dev/bus/usb/001/004
+logger -p info -t inet "${LOGGING}"
 return 0
 }
 
