@@ -10,8 +10,7 @@ echo panda > /etc/hostname
 echo "127.0.0.1 localhost" > /etc/hosts
 echo "127.0.1.1 panda" > /etc/hosts
 
-echo 'deb http://archive.ubuntu.com/ubuntu trusty universe' >> /etc/apt/sources.list
-echo 'deb http://archive.ubuntu.com/ubuntu trusty-updates universe' >> /etc/apt/sources.list
+echo -e  "deb http://archive.ubuntu.com/ubuntu trusty universe\ndeb http://archive.ubuntu.com/ubuntu trusty-updates universe" >> /etc/apt/sources.list
 apt-get -y update
 apt-get -y --force-yes install $PACKAGES
 apt-get autoclean
@@ -36,3 +35,12 @@ chmod -R g+w /usr/local/eshtapay-terminals
 mkdir /usr/lib/jvm
 cp -r jre1.8.0/ /usr/lib/jvm
 update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jre1.8.0/bin/java" 1
+
+
+echo -e "iface ppp0 inet wvdial \n  provider wvdial \n  auto ppp0 \n" >> /etc/network/interfaces
+
+##Configuring rsyslog.d
+touch /var/log/inet.log
+chown syslog:adm /var/log/inet.log
+cp rsyslog.d/* $ETC_DIR/rsyslog.d
+##
