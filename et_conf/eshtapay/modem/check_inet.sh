@@ -23,9 +23,9 @@ wvdial_restart() {
 usb_reset() {
 logger -p info -t inet "Restarting USB power..."
 killall -9 wvdial
-#name="$(awk -F "=" '/Exec/ {print $2}' $file)"
-
-LOGGING = ${USB_RESET} /dev/bus/usb/001/004
+BUS=`lsusb | grep 12d1:1506 | awk ' {print $2} '`
+DEVICE=`lsusb | grep 12d1:1506 | awk ' {print $4} '`
+LOGGING = `${USB_RESET} /dev/bus/usb/${BUS}/004`
 logger -p info -t inet "${LOGGING}"
 return 0
 }
