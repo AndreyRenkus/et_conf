@@ -12,7 +12,6 @@ USB_RESET="/home/andrew/repos/et_conf/eshtapay/modem/usbreset"
 ping_server() {
     ${PING} -q -c1 ${SERVER} >/dev/null 2>/dev/null
     PINGSTATUS=$?
-    #echo ${PINGSTATUS} > /home/andrew/inet.log
     if [ ${PINGSTATUS} -eq 0 ]; then
     	logger -p info -t inet "Check inet: STATUS - SUCCESS"
     else
