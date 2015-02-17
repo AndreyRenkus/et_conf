@@ -11,41 +11,40 @@ USB_RESET="/home/andrew/repos/et_conf/eshtapay/modem/usbreset"
 
 ping_server() {
     ${PING} -q -c1 ${SERVER} >/dev/null 2>/dev/null
+    PINGSTATUS=$?
+    #echo ${PINGSTATUS} > /home/andrew/inet.log
+    if [ ${PINGSTATUS} -eq 0 ]; then
+    	logger -p info -t inet "Check inet: STATUS - SUCCESS"
+    else
+	logger -p info -t inet "Check inet: STATUS - FAIL"
+    fi
+    return ${PINGSTATUS}
 }
 
 wvdial_restart() {
     killall -9 wvdial
-    logger -p info -t inet "Starting WVDIAL..."
+    logger -p info -t inet "Restarting WVDIAL..."
     ${WVDIAL} &
     return 0
 }
 
 usb_reset() {
-logger -p info -t inet "Restarting USB power..."
-killall -9 wvdial
-BUS=`lsusb | grep 12d1:1506 | awk ' {print $2} '`
-DEVICE=`lsusb | grep 12d1:1506 | awk ' {print $4} '`
-LOGGING = `${USB_RESET} /dev/bus/usb/${BUS}/004`
-logger -p info -t inet "${LOGGING}"
-return 0
+    logger -p info -t inet "Restarting USB power..."
+    killall -9 wvdial
+    BUS=`lsusb | grep 12d1:1506 | awk ' {print $2} '`
+    DEVICE=`lsusb | grep 12d1:1506 | awk ' {print $4} '`
+    LOGGING = `${USB_RESET} /dev/bus/usb/${BUS}/004`
+    logger -p info -t inet "${LOGGING}"
+    return 0
 }
 
-logger -p info -t inet "============================================================="
-logger -p info -t inet "Start of check INTERNET accessible"
+logger -p info -t inet "===>"
 ping_server
-if [ $? -eq 0 ]; then
-    logger -p info -t inet "The server ${SERVER} is pingable success!"
-    exit 0
-else
-    logger -p err -t inet "FAIL! The server ${SERVER} is not pingable! --> Restarting WVDIAL..."
+if [ $? -ne 0 ]; then
     wvdial_restart
     sleep 20
     ping_server
-    if [ $? -eq 0 ]; then
-        logger -p info -t inet  "The server ${SERVER} is pingable after WVDIAL restart!"
-        exit 0
-    else
-        logger -p err -t inet  "Critical FAIL!! The server ${SERVER} is NOT pingable after WVDIAL restart!"
+    if [ $? -ne 0 ]; then
         usb_reset
     fi
 fi
