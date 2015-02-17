@@ -16,7 +16,7 @@ ping_server() {
     if [ ${PINGSTATUS} -eq 0 ]; then
     	logger -p info -t inet "Check inet: STATUS - SUCCESS"
     else
-	logger -p info -t inet "Check inet: STATUS - FAIL"
+	    logger -p info -t inet "Check inet: STATUS - FAIL"
     fi
     return ${PINGSTATUS}
 }
@@ -32,9 +32,13 @@ usb_reset() {
     logger -p info -t inet "Restarting USB power..."
     killall -9 wvdial
     BUS=`lsusb | grep 12d1:1506 | awk ' {print $2} '`
-    DEVICE=`lsusb | grep 12d1:1506 | awk ' {print $4} '`
-    LOGGING = `${USB_RESET} /dev/bus/usb/${BUS}/004`
-    logger -p info -t inet "${LOGGING}"
+    DEVICE=`lsusb | grep 12d1:1506 | awk ' {print $4} ' | sed 's/://g'`
+    if [ ${BUS} -a ${DEVICE} ]; then
+    	LOGGING=`${USB_RESET} /dev/bus/usb/${BUS}/${DEVICE}`
+    	logger -p info -t inet "${LOGGING}"
+    else
+    	logger -p info -t inet "USB modem not found"
+    fi
     return 0
 }
 
